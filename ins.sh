@@ -29,7 +29,7 @@ mkdir /home/ossono/docker
 apt-get install acl
 setfacl -Rdm g:docker:rwx /home/ossono/docker
 chmod -R 775 /home/ossono/docker
-touch /home/ossono/docker/docker-compose.yml
+#touch /home/ossono/docker/docker-compose.yml
 apt-get install -y apparmor-utils apt-transport-https avahi-daemon ca-certificates curl dbus jq network-manager socat software-properties-common
 systemctl disable ModemManager 
 apt-get purge modemmanager -y
