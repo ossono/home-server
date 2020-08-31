@@ -1,21 +1,6 @@
 version: "3.6"
 services: 
 
-#Portainer - WebUI for Containers
-  portainer:
-    image: portainer/portainer
-    hostname: portainer
-    container_name: portainer
-    restart: always
-    command: -H unix:///var/run/docker.sock
-    ports:
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${USERDIR}/docker/portainer/data:/data
-      - ${USERDIR}/docker/shared:/shared
-    environment:
-      - TZ=${TZ}
 
  #Transmission
   transmission:
@@ -93,23 +78,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Testerhiba1
 
-  jellyfin:
-    image: linuxserver/jellyfin
-    container_name: jellyfin
-    network_mode: host
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - ${USERDIR}/docker/jellyfin:/config
-      - /media/usb-drive/tv:/data/tvshows
-      - /media/usb-drive/complete:/data/movies
-      - /opt/vc/lib:/opt/vc/lib #optional
-    ports:
-      - 8096:8096
-      - 8920:8920 #optional
-
+  
 
   ftpd_server:
     image: stilliard/pure-ftpd
