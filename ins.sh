@@ -34,6 +34,9 @@ apt-get install -y apparmor-utils apt-transport-https avahi-daemon ca-certificat
 systemctl disable ModemManager 
 apt-get purge modemmanager -y
 curl -sL https://raw.githubusercontent.com/home-assistant/supervised-installer/master/installer.sh |  bash -s -- -m intel-nuc -d /home/ossono/docker/hassio
-chmod -R a+rwx /home/ossono
+chmod -R a+rwx /home/ossono/docker
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+git clone  https://github.com/ossono/HACS.git /home/ossono/docker/hassio/homeassistant/custom_components/hacs
+reboot
+docker-compose -f /home/ossono/compose/docker-compose.yml up -d
