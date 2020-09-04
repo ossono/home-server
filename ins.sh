@@ -1,16 +1,7 @@
 #!/bin/sh
-cale=`dirname $0`
-sudo update-rc.d -f script_after_reboot remove
-cp $cale"/script_after_reboot" /etc/init.d/
-sudo chmod +x /etc/init.d/script_after_reboot
-sudo update-rc.d script_after_reboot defaults 90
 
-sudo rm /etc/rc0.d/K90script_after_reboot
-sudo rm /etc/rc1.d/K90script_after_reboot
-sudo rm /etc/rc3.d/S90script_after_reboot
-sudo rm /etc/rc4.d/S90script_after_reboot
-sudo rm /etc/rc5.d/S90script_after_reboot
-sudo rm /etc/rc6.d/K90script_after_reboot
+
+
 chmod -R a+rwx /home
 apt-get update -y
 apt-get upgrade -y
@@ -49,7 +40,7 @@ curl -sL https://raw.githubusercontent.com/home-assistant/supervised-installer/m
 chmod -R a+rwx /home/ossono/docker
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
-#git clone  https://github.com/ossono/HACS.git /home/ossono/docker/hassio/homeassistant/custom_components/hacs
+git clone  https://github.com/ossono/HACS.git /home/ossono/docker/hassio/homeassistant/custom_components/hacs
 #git clone  https://github.com/ossono/home-server.git /home/ossono/server
 sh -c "echo '/dev/sdb /home/ossono/docker/hassio/share/usb' >> /etc/fstab"
 rm /etc/netplan/00-installer-config.yaml
@@ -65,5 +56,6 @@ sh -c "echo '     gateway4: 192.168.1.1' >> /etc/netplan/00-installer-config.yam
 sh -c "echo '     nameservers:' >> /etc/netplan/00-installer-config.yaml"
 sh -c "echo '       addresses: [8.8.8.8,8.8.4.4]' >> /etc/netplan/00-installer-config.yaml"
 netplan apply
+chmod -R a+rwx /home/ossono/docker
 sudo reboot
 
