@@ -1,7 +1,7 @@
 #!/bin/sh
 chmod -R a+rwx /home
-apt-get update
-apt-get upgrade
+apt-get update -y
+apt-get upgrade -y
 apt-get install mc -y
 apt-get install \
     apt-transport-https \
@@ -52,5 +52,5 @@ sh -c "echo '     addresses: [192.168.1.65/24]' >> /etc/netplan/00-installer-con
 sh -c "echo '     gateway4: 192.168.1.1' >> /etc/netplan/00-installer-config.yaml"
 sh -c "echo '     nameservers:' >> /etc/netplan/00-installer-config.yaml"
 sh -c "echo        addresses: [8.8.8.8,8.8.4.4]' >> /etc/netplan/00-installer-config.yaml"
-reboot
+
 
