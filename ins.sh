@@ -1,5 +1,5 @@
 #!/bin/sh
-chmod -R a+rwx /root
+chmod -R a+rwx /home
 apt-get update
 apt-get upgrade
 apt-get install mc -y
@@ -38,5 +38,18 @@ chmod -R a+rwx /home/ossono/docker
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
 git clone  https://github.com/ossono/HACS.git /home/ossono/docker/hassio/homeassistant/custom_components/hacs
+sh -c "echo '/dev/sdb /home/ossono/docker/hassio/share/usb' >> /etc/fstab"
+rm /etc/netplan/00-installer-config.yaml
+touch /etc/netplan/00-installer-config.yaml
+sh -c "echo 'network:' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '  version: 2' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '  renderer: networkd' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '  ethernets:' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '    enp2s0:' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '     dhcp4: no' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '     addresses: [192.168.1.61/24]' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '     gateway4: 192.168.1.1' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '     nameservers:' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo        addresses: [8.8.8.8,8.8.4.4]' >> /etc/netplan/00-installer-config.yaml"
 reboot
 docker-compose -f /home/ossono/compose/docker-compose.yml up -d
