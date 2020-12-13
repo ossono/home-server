@@ -155,4 +155,31 @@ services:
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP="http://SERVER-IP:32400/"
+      
+      
+  zm_db:
+    container_name: zm_db
+    restart: always
+    image: mysql/mysql-server:5.7
+    environment:
+      - TZ=Europe/London
+      - MYSQL_USER=zmuser
+      - MYSQL_PASSWORD=zmpass
+      - MYSQL_DATABASE=zm
+      - MYSQL_ROOT_PASSWORD=mysqlpsswd
+      - MYSQL_ROOT_HOST=%
+    network_mode: znet
+
+  zoneminder:
+    container_name: zoneminder
+    restart: always
+    shm_size: 4096m
+    environment:
+      - TZ=Europe/London
+      - ZM_DB_HOST=zm_db
+    network_mode: znet
+    ports:
+      - 9080:80
+    image: quantumobject/docker-zoneminder
+
 
