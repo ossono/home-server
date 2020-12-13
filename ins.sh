@@ -57,5 +57,6 @@ sh -c "echo '     nameservers:' >> /etc/netplan/00-installer-config.yaml"
 sh -c "echo '       addresses: [8.8.8.8,8.8.4.4]' >> /etc/netplan/00-installer-config.yaml"
 netplan apply
 chmod -R a+rwx /home/ossono/docker
+docker network create znet
 sudo reboot
 
