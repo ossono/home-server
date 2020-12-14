@@ -40,9 +40,9 @@ curl -sL https://raw.githubusercontent.com/home-assistant/supervised-installer/m
 chmod -R a+rwx /home/ossono/docker
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
-git clone  https://github.com/ossono/HACS.git /home/ossono/docker/hassio/homeassistant/custom_components/hacs
+#git clone  https://github.com/ossono/HACS.git /home/ossono/docker/hassio/homeassistant/custom_components/hacs
 #git clone  https://github.com/ossono/home-server.git /home/ossono/server
-sh -c "echo '/dev/sdb /home/ossono/docker/hassio/share/usb' >> /etc/fstab"
+#sh -c "echo '/dev/sdb /home/ossono/docker/hassio/share/usb' >> /etc/fstab"
 rm /etc/netplan/00-installer-config.yaml
 touch /etc/netplan/00-installer-config.yaml
 sh -c "echo 'network:' >> /etc/netplan/00-installer-config.yaml"
