@@ -57,6 +57,7 @@ sh -c "echo '     nameservers:' >> /etc/netplan/00-installer-config.yaml"
 sh -c "echo '       addresses: [8.8.8.8,8.8.4.4]' >> /etc/netplan/00-installer-config.yaml"
 netplan apply
 chmod -R a+rwx /home/ossono/docker
-docker network create znet
-sudo reboot
-
+docker network create znet  # for zoneminder
+#wget -P /home/ossono/ser/h1 https://github.com/hacs/integration/releases/download/1.9.0/hacs.zip
+wget https://github.com/hacs/integration/releases/download/1.9.0/hacs.zip
+unzip hacs.zip -d /home/ossono/docker/hassio/homeassistant/custom_components/hacs
