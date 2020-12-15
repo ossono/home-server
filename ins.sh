@@ -12,7 +12,19 @@ apt-get install \
     curl \
     gnupg-agent \
     software-properties-common -y
-
+rm /etc/netplan/00-installer-config.yaml
+touch /etc/netplan/00-installer-config.yaml
+sh -c "echo 'network:' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '  version: 2' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '  renderer: networkd' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '  ethernets:' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '    enp3s0:' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '     dhcp4: no' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '     addresses: [192.168.1.65/24]' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '     gateway4: 192.168.1.1' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '     nameservers:' >> /etc/netplan/00-installer-config.yaml"
+sh -c "echo '       addresses: [8.8.8.8,8.8.4.4]' >> /etc/netplan/00-installer-config.yaml"
+netplan apply
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
@@ -43,21 +55,8 @@ docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /va
 #git clone  https://github.com/ossono/HACS.git /home/ossono/docker/hassio/homeassistant/custom_components/hacs
 #git clone  https://github.com/ossono/home-server.git /home/ossono/server
 #sh -c "echo '/dev/sdb /home/ossono/docker/hassio/share/usb' >> /etc/fstab"
-rm /etc/netplan/00-installer-config.yaml
-touch /etc/netplan/00-installer-config.yaml
-sh -c "echo 'network:' >> /etc/netplan/00-installer-config.yaml"
-sh -c "echo '  version: 2' >> /etc/netplan/00-installer-config.yaml"
-sh -c "echo '  renderer: networkd' >> /etc/netplan/00-installer-config.yaml"
-sh -c "echo '  ethernets:' >> /etc/netplan/00-installer-config.yaml"
-sh -c "echo '    enp3s0:' >> /etc/netplan/00-installer-config.yaml"
-sh -c "echo '     dhcp4: no' >> /etc/netplan/00-installer-config.yaml"
-sh -c "echo '     addresses: [192.168.1.65/24]' >> /etc/netplan/00-installer-config.yaml"
-sh -c "echo '     gateway4: 192.168.1.1' >> /etc/netplan/00-installer-config.yaml"
-sh -c "echo '     nameservers:' >> /etc/netplan/00-installer-config.yaml"
-sh -c "echo '       addresses: [8.8.8.8,8.8.4.4]' >> /etc/netplan/00-installer-config.yaml"
-netplan apply
 chmod -R a+rwx /home/ossono/docker
 docker network create znet  # for zoneminder
 #wget -P /home/ossono/ser/h1 https://github.com/hacs/integration/releases/download/1.9.0/hacs.zip
-wget https://github.com/hacs/integration/releases/download/1.9.0/hacs.zip
-unzip hacs.zip -d /home/ossono/docker/hassio/homeassistant/custom_components/hacs
+#wget https://github.com/hacs/integration/releases/download/1.9.0/hacs.zip
+#unzip hacs.zip -d /home/ossono/docker/hassio/homeassistant/custom_components/hacs
