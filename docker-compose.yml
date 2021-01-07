@@ -127,35 +127,22 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}  
 
-# Plex Media Server
-  plexms:
-    container_name: plexms
-    hostname: plexms
-    restart: always
-    image: plexinc/pms-docker
-    volumes:
-      - ${USERDIR}/docker/plexms:/config
-      - ${USERDIR}/Downloads/plex_tmp:/transcode
-      - /media/usb-drive:/media
-      - ${USERDIR}/docker/shared:/shared
-    ports:
-      - "32400:32400/tcp"
-      - "3005:3005/tcp"
-      - "8324:8324/tcp"
-      - "32469:32469/tcp"
-      - "1900:1900/udp"
-      - "32410:32410/udp"
-      - "32412:32412/udp"
-      - "32413:32413/udp"
-      - "32414:32414/udp"
+  plex:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    network_mode: host
     environment:
-      - TZ=${TZ}
-      - HOSTNAME="Docker Plex"
-      - PLEX_CLAIM="claim-JF7X19Ayeqme8u9w-DqR"
-      - PLEX_UID=${PUID}
-      - PLEX_GID=${PGID}
-      - ADVERTISE_IP="http://SERVER-IP:32400/"
-      
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - VERSION=docker
+      - UMASK_SET=022 #optional
+      - PLEX_CLAIM= #optional
+    volumes:
+      -  ${USERDIR}/docker/plex:/config
+      - /media/usb-drive:/tv
+      - /media/usb-drive:/movies
+    restart: unless-stopped
+
       
   zm_db:
     container_name: zm_db
