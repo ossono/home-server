@@ -55,4 +55,5 @@ docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /va
 sh -c "echo '/dev/sdb /media/usb-drive' >> /etc/fstab"
 chmod -R a+rwx /home/ossono/docker
 docker network create znet  # for zoneminder
+cd /home/ossono/docker/hassio/homeassistant
 wget -q -O - https://hacs.xyz/install | bash -
