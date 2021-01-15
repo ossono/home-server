@@ -19,14 +19,14 @@ services:
       - TZ=${TZ}
 
 # Watchtower - Automatic Update of Containers/Apps
-  watchtower:
-    container_name: watchtower
-    hostname: watchtower
-    restart: always
-    image: v2tec/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --schedule "0 0 4 * * *" --cleanup
+#  watchtower:
+#    container_name: watchtower
+#    hostname: watchtower
+#    restart: always
+#    image: v2tec/watchtower
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+ #   command: --schedule "0 0 4 * * *" --cleanup
 
 # Sonarr – TV Show Download and Management
   sonarr:
@@ -101,7 +101,7 @@ services:
   organizr:
     container_name: organizr
     restart: always
-    image: lsiocommunity/organizr
+    image: linuxserver/organizr
     volumes:
       - ${USERDIR}/docker/organizr:/config
       - ${USERDIR}/docker/shared:/shared
