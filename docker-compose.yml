@@ -1,7 +1,21 @@
 version: "3.6"
 services: 
 
-
+  nzbget:
+    image: "linuxserver/nzbget"
+    container_name: "nzbget"
+    volumes:
+      - ${USERDIR}/docker/nzbget:/config
+      - ${USERDIR}/Downloads:/media/usb-drive
+      - ${USERDIR}/Downloads/incomplete:/media/usb-drive/incomp
+      - ${USERDIR}/docker/shared:/shared
+    ports:
+      - "6789:6789"
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
  #Transmission
   transmission:
     image: linuxserver/transmission
