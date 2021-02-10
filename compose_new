@@ -1,0 +1,176 @@
+version: "3.6"
+services: 
+
+  nzbget:
+    image: "linuxserver/nzbget"
+    container_name: "nzbget"
+    volumes:
+      - ${USERDIR}/docker/nzbget:/config
+      - ${USERDIR}/Downloads:/home/ossono/docker/hassio/media
+      - ${USERDIR}/Downloads/incomplete:/home/ossono/docker/hassio/media/incomp
+      - ${USERDIR}/docker/shared:/shared
+    ports:
+      - "6789:6789"
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+ #Transmission
+  transmission:
+    image: linuxserver/transmission
+    hostname: transmission
+    container_name: transmission
+    restart: always
+    ports:
+      - "9091:9091"
+      - "51413:51413"
+    volumes:
+      - ${USERDIR}/docker/transmission/config:/config
+      - /home/ossono/docker/hassio/media:/downloads
+      - ${USERDIR}/docker/transmission/watch:/watch
+    environment:
+      - TZ=${TZ}
+
+
+# Sonarr – TV Show Download and Management
+  sonarr:
+    image: "linuxserver/sonarr"
+    hostname: sonarr
+    container_name: "sonarr"
+    volumes:
+      - ${USERDIR}/docker/sonarr:/config
+      - /home/ossono/docker/hassio/media:/downloads
+      - /home/ossono/docker/hassio/media/complete:/tv
+      - "/etc/localtime:/etc/localtime:ro"
+      - ${USERDIR}/docker/shared:/shared
+    ports:
+        - "8989:8989"
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
+#radarr
+  radarr:
+    image: "linuxserver/radarr"
+    container_name: "radarr"
+    volumes:
+      - ${USERDIR}/docker/radarr:/config
+      - ${USERDIR}/Downloads/completed:/downloads
+      - /home/ossono/docker/hassio/media/complete:/movies
+      - "/etc/localtime:/etc/localtime:ro"
+      - ${USERDIR}/docker/shared:/shared
+    ports:
+      - "7878:7878"
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
+
+  owncloud:
+    image: owncloud
+    restart: always
+    ports:
+      - 8080:80
+
+  mysql:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Testerhiba1
+
+  
+
+  ftpd_server:
+    image: stilliard/pure-ftpd
+    container_name: pure-ftpd
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
+    volumes: 
+      - "/home/ossono/docker/hassio/media/ftp:/home/ossono/"
+      - "/home/ossono/docker/hassio/media/ftp/passwd:/etc/pure-ftpd/passwd"
+    environment:
+      PUBLICHOST: "localhost"
+      FTP_USER_NAME: ossono
+      FTP_USER_PASS: Testerhiba1
+      FTP_USER_HOME: /home/ossono
+# also for ssl/tls:
+#      ADDED_FLAGS: "--tls=2"
+    restart: always
+
+  organizr:
+    container_name: organizr
+    restart: always
+    image: linuxserver/organizr
+    volumes:
+      - ${USERDIR}/docker/organizr:/config
+      - ${USERDIR}/docker/shared:/shared
+    ports:
+      - "5555:80"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
+  tautulli:
+    container_name: tautulli
+    restart: always
+    image: linuxserver/tautulli
+    volumes:
+      - ${USERDIR}/docker/tautulli/config:/config
+      - ${USERDIR}/docker/tautulli/logs:/logs:ro
+      - ${USERDIR}/docker/shared:/shared
+    ports:
+      - "8181:8181"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}  
+
+  plex:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - VERSION=docker
+      - UMASK_SET=022 #optional
+      - PLEX_CLAIM= #optional
+    volumes:
+      -  ${USERDIR}/docker/plex:/config
+      - /home/ossono/docker/hassio/media:/tv
+      - /home/ossono/docker/hassio/media:/movies
+    restart: unless-stopped
+
+      
+  zm_db:
+    container_name: zm_db
+    restart: always
+    image: mysql/mysql-server:5.7
+    environment:
+      - TZ=Europe/London
+      - MYSQL_USER=zmuser
+      - MYSQL_PASSWORD=zmpass
+      - MYSQL_DATABASE=zm
+      - MYSQL_ROOT_PASSWORD=mysqlpsswd
+      - MYSQL_ROOT_HOST=%
+    network_mode: znet
+
+  zoneminder:
+    container_name: zoneminder
+    restart: always
+    shm_size: 4096m
+    environment:
+      - TZ=Europe/London
+      - ZM_DB_HOST=zm_db
+    network_mode: znet
+    ports:
+      - 9080:80
+    image: quantumobject/docker-zoneminder
+
