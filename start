@@ -13,3 +13,6 @@ wget -O - https://get.hacs.xyz | bash -
 
 
 
+
+https://www.cyberciti.biz/faq/add-configure-set-up-static-ip-address-on-debianlinux/
+sudo nano /etc/network/interfaces
