@@ -1,1 +1,15 @@
 sh -c "echo 'export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' >> /root/.bashrc"
+
+reboot
+
+
+nano in.sh
+chmod +x in.sh
+
+
+hacs
+
+wget -O - https://get.hacs.xyz | bash -
+
+
+
